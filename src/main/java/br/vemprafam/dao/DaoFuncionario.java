@@ -23,6 +23,7 @@ public class DaoFuncionario {
 			connection = DriverManager.getConnection(url,user,password);
 		} catch (SQLException e) {
 			e.printStackTrace();
+			throw new RuntimeException(e);
 		}
 	}
 	
@@ -37,6 +38,7 @@ public class DaoFuncionario {
 			pstmt.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
+			throw new RuntimeException(e);
 		}
 		
 	}
@@ -49,6 +51,7 @@ public class DaoFuncionario {
 			pstmt.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
+			throw new RuntimeException(e);
 		}		
 	}
 	
@@ -67,11 +70,44 @@ public class DaoFuncionario {
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
+			throw new RuntimeException(e);
 		}
 		return result;
 	}
 	
-	public void atualizarFuncionario(Funcionario funcionario) {
+	public Funcionario buscarPeloRe( int re ) {
+		try {
+			String sql = "SELECT * FROM FUNCIONARIOS WHERE RE=?";
+			PreparedStatement pstmt = connection.prepareStatement(sql);
+			pstmt.setInt(1, re);
+			ResultSet rs = pstmt.executeQuery();
+			if ( rs.next() ) {
+				return new Funcionario(rs.getInt(1),
+									   rs.getString(2),
+									   rs.getDate(3),
+									   rs.getDouble(4));
+			} else {
+				return null;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new RuntimeException(e);
+		}		
 		
+	}
+	
+	public void atualizarFuncionario(Funcionario funcionario) {
+		try {
+			String sql = "UPDATE FUNCIONARIOS SET NOME=?, DATAADMISSAO=?, SALARIO=? WHERE RE=?";
+			PreparedStatement pstmt = connection.prepareStatement(sql);
+			pstmt.setString(1, funcionario.getNome());
+			pstmt.setDate(2, new java.sql.Date(funcionario.getDataAdmissao().getTime()));
+			pstmt.setDouble(3, funcionario.getSalario());
+			pstmt.setInt(4, funcionario.getRe());
+			pstmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new RuntimeException(e);
+		}		
 	}
 }

@@ -23,8 +23,9 @@ try {
 	dataAdmissao = null;
 } 
 double salario = Double.parseDouble(request.getParameter("salario"));
+String email = request.getParameter("email");
 DaoFuncionario dao = new DaoFuncionario();
-dao.atualizarFuncionario(new Funcionario(re,nome,dataAdmissao,salario));
+dao.atualizarFuncionario(new Funcionario(re,nome,dataAdmissao,salario,email));
 %>
 Funcionario atualizado
 <br/>

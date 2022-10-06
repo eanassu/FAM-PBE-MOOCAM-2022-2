@@ -44,8 +44,9 @@ public class ServletCadastro extends HttpServlet {
 			dataAdmissao = null;
 		} 
 		double salario = Double.parseDouble(request.getParameter("salario"));
+		String email = request.getParameter("email");
 		DaoFuncionario dao = new DaoFuncionario();
-		dao.inserirFuncionario(new Funcionario(re,nome,dataAdmissao,salario));
+		dao.inserirFuncionario(new Funcionario(re,nome,dataAdmissao,salario,email));
 		PrintWriter out = response.getWriter();
 		out.println("<!DOCTYPE html>");
 		out.println("<html>");

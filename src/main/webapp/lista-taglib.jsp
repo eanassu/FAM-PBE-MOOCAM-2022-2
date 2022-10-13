@@ -15,13 +15,21 @@
 <tr>
 <th>RE</th><th>nome</th><th>data adm.</th><th>salário</th><th>e-mail</th>
 </tr>
-<c:forEach var="funcionario" items="${dao.lista}">
-	<tr>
+<c:forEach var="funcionario" items="${dao.lista}" varStatus="id">
+	<tr bgcolor="#${id.count%2==0?'aaee88':'ffffff'}">
 		<td>${funcionario.re}</td>
 		<td>${funcionario.nome}</td>
 		<td><fmt:formatDate value="${funcionario.dataAdmissao}" pattern="dd/MM/yyyy"/></td>
 		<td><fmt:formatNumber value="${funcionario.salario}" type="currency"/></td>
-		<td>${funcionario.email}</td>
+		<td>
+		<c:if test="${not empty funcionario.email}">
+			<a href="mailto:${funcionario.email}">${funcionario.email}</a>
+		</c:if>
+		<c:if test="${empty funcionario.email}">
+			não informado
+		</c:if>
+		
+		</td>
 	</tr>
 </c:forEach>
 </table>

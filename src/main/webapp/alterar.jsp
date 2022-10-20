@@ -25,12 +25,13 @@ SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
 String dataAdmissaoStr = format.format(f.getDataAdmissao());
 %>
 
-<form action="executaAlteracao.jsp">
+<form action="mvc">
 RE:<input type='text' name='re' value='<%=f.getRe()%>'/><br/>
 nome:<input type='text' name='nome' value='<%=f.getNome()%>'/><br/>
 data de admissão:<fam:campoData id='dataAdm' value='<%=dataAdmissaoStr%>'/><br/>
 salário:<input type='text' name='salario' value='<%=f.getSalario()%>'/><br/>
 e-mail:<input type='text' name='email' value='<%=f.getEmail()%>'/><br/>
+<input type="hidden" name="logica" value="LogicaAlteracao"/>
 <input type='submit' value='Enviar'>
 </form>
 <br/>

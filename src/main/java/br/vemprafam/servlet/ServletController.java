@@ -1,28 +1,25 @@
 package br.vemprafam.servlet;
 
 import java.io.IOException;
-import java.io.PrintWriter;
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import br.vemprafam.dao.DaoFuncionario;
-import br.vemprafam.pojo.Funcionario;
+import br.vemprafam.mvc.Logica;
 
 /**
- * Servlet implementation class ServletExclusao
+ * Servlet implementation class ServletController
  */
-@WebServlet("/excluirFuncionario")
-public class ServletExclusao extends HttpServlet {
+@WebServlet("/mvc")
+public class ServletController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public ServletExclusao() {
+    public ServletController() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -31,21 +28,16 @@ public class ServletExclusao extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		int re = Integer.parseInt(request.getParameter("re"));
-		DaoFuncionario dao = new DaoFuncionario();
-		dao.excluirFuncionario(new Funcionario(re,null,null,0,null));
-		PrintWriter out = response.getWriter();
-		out.println("<!DOCTYPE html>");
-		out.println("<html>");
-	    out.println("<head>");
-	    out.println("<meta charset='ISO-8859-1'>");
-	    out.println("<title>Resultado</title>");
-	    out.println("</head>");
-	    out.println("<body>");
-		out.println("Funcionário excluído<br/>");
-		out.println("<a href='/Projeto'>voltar ao menu principal</a>");
-	    out.println("</body>");
-	    out.println("</html>");
+		String param = request.getParameter("logica");
+		String nomeClasse = "br.vemprafam.mvc." + param;
+		try {
+			Class<?> classe = Class.forName(nomeClasse);
+			Logica logica = (Logica) classe.getConstructor().newInstance();
+			String pagina = logica.executar(request, response);
+			request.getRequestDispatcher(pagina).forward(request, response);
+		} catch(Exception e) {
+			throw new RuntimeException("Exceção na lógica", e);
+		}
 	
 	}
 

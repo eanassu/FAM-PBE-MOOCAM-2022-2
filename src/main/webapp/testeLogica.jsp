@@ -4,14 +4,9 @@
 <html>
 <head>
 <meta charset="ISO-8859-1">
-<title>Alteração</title>
+<title>Teste</title>
 </head>
 <body>
-
-Funcionario ${param.nome} atualizado
-
-<br/>
-<a href='/Projeto'>voltar ao menu principal</a>
-
+Teste do MVC ${param.logica}
 </body>
 </html>
